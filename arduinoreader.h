@@ -7,14 +7,11 @@ class ArduinoReader : public QObject
 {
     Q_OBJECT
 public:
-    ArduinoReader(const QString &arduino_port_name);
+    ArduinoReader(QString arduino_port_name);
     ~ArduinoReader();
 
 signals:
-    void gotNewVals(float x, float y, float z);
-
-protected:
-    void connectToArduino();
+    void gotNewVals(float x, float y, float z);    
 
 private:
 
@@ -25,7 +22,7 @@ private:
 
 private slots:
     void serialRead();
-
+    void connectToArduino();
 
 
 

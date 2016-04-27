@@ -26,8 +26,13 @@ MainWindow::MainWindow(QWidget *parent) :
 }
 
 
-void MainWindow::updateGraph(float valX, float valY, float valZ)
+void MainWindow::updateWindowData(float valX, float valY, float valZ)
 {
+
+    ui->x_label->setText(valX);
+    ui->y_label->setText(valY);
+    ui->z_label->setText(valZ);
+
     qDebug() << "MAINWINDOW: updateGraph, valX:" << valX;
     // add data to lines:
     double key = QDateTime::currentDateTime().toMSecsSinceEpoch()/1000.0;

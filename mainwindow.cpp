@@ -23,56 +23,16 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->plotWidget->xAxis, SIGNAL(rangeChanged(QCPRange)), ui->plotWidget->xAxis2, SLOT(setRange(QCPRange)));
     connect(ui->plotWidget->yAxis, SIGNAL(rangeChanged(QCPRange)), ui->plotWidget->yAxis2, SLOT(setRange(QCPRange)));
 
-
-//======================Cerco Arduino================================
-
-    bool arduino_available = false;
-    QString arduino_port_name = "";
-
-    qDebug() << "Number of available ports: "<< QSerialPortInfo::availablePorts().length();
-
-    foreach(const QSerialPortInfo &serialPortInfo, QSerialPortInfo::availablePorts())
-    {
-        qDebug() <<"Port name: " << serialPortInfo.portName();
-        qDebug() << " -Has vendor ID: " << serialPortInfo.hasVendorIdentifier();
-        if(serialPortInfo.hasVendorIdentifier())
-        qDebug() << " -Vendor ID: "<< serialPortInfo.vendorIdentifier();
-        qDebug() << " -Has product ID: " << serialPortInfo.hasProductIdentifier();
-        if(serialPortInfo.hasProductIdentifier())
-        qDebug() << " -Product ID: "<< serialPortInfo.productIdentifier();
-     }
-
-    foreach(const QSerialPortInfo &serialPortInfo, QSerialPortInfo::availablePorts())
-    {
-        if(serialPortInfo.hasVendorIdentifier() && serialPortInfo.hasProductIdentifier() && serialPortInfo.vendorIdentifier() == arduino_uno_vendor_id && serialPortInfo.productIdentifier() == arduino_uno_product_id)
-        {
-            arduino_port_name = serialPortInfo.portName();
-            arduino_available = true;//Trovato arduino
-        }
-    }
-
-    if(arduino_available)
-    {
-
-        ArduinoReader arduinoReader(arduino_port_name); //istanzio un thread ArduinoReader
-        qDebug() << "MAIN: Attempting to connect signal & slots";
-        QObject::connect(&arduinoReader,SIGNAL(gotNewVals(float,float,float)),this, SLOT(updateGraph(float,float,float)));
-        qDebug() << "MAIN: Done connecting signal & slots, attempting to start ArduinoReader";
-        arduinoReader.start();
-                qDebug() << "MAIN: ArduinoReader started";
-    }
-    else
-    {
-        //give error message if not avaibale
-        QMessageBox::warning(this,"Port error", "couldn't find the arduino");
-        return;
-    }
-
 }
 
 
-void MainWindow::updateGraph(float valX, float valY, float valZ)
+void MainWindow::updateWindowData(float valX, float valY, float valZ)
 {
+
+    ui->x_label->setText(valX);
+    ui->y_label->setText(valY);
+    ui->z_label->setText(valZ);
+
     qDebug() << "MAINWINDOW: updateGraph, valX:" << valX;
     // add data to lines:
     double key = QDateTime::currentDateTime().toMSecsSinceEpoch()/1000.0;
