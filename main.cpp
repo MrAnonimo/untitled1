@@ -42,7 +42,7 @@ int main(int argc, char *argv[])
         ArduinoReader *arduinoReader = new ArduinoReader(arduino_port_name); //istanzio un thread ArduinoReader
         qDebug() << "MAIN: Attempting to connect signal & slots";
 
-        if(QObject::connect(arduinoReader,SIGNAL(gotNewVals(const QString&,const QString&,const QString&)),&w, SLOT(updateWindowData(const QString&,const QString&,const QString&))))
+        QObject::connect(arduinoReader,SIGNAL(gotNewVals(const QString&,const QString&,const QString&)),&w, SLOT(updateWindowData(const QString&,const QString&,const QString&)));
 
         QThread *qThread1 = new QThread;
         arduinoReader->moveToThread(qThread1);

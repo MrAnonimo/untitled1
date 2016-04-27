@@ -30,23 +30,28 @@ void ArduinoReader::connectToArduino()
     arduino->write("#o1");//Enable output stream
     arduino->write("#ob 3");//1: accelerometer, 2:magnetometer, 3:gyroscope
     qDebug() << "ARDUINOREADER: Sent serial commands, listenig serial";
+    //QThread::msleep(1000);//Wait 1 sec
     QObject::connect(arduino,SIGNAL(readyRead()),this, SLOT(serialRead()));
 }
 
 void ArduinoReader::serialRead()
 {
     //qDebug() << "ARDUINOREADER: serialRead()";
-    if(arduino->bytesAvailable() >= 25)
+    if(arduino->bytesAvailable() >= 26)
     {
-
         buffer = arduino->readAll();
-        //QStringList xyz = buffer.slpit(",");
-        //qDebug() << xyz;
-        /*x =
-        y =
-        z = */
+        QList<QString> xyz = buffer.split(',');
+        qDebug() <<"xyz size:"<< xyz.size();
+        if(xyz.size() == 3)
+        {
+            x = xyz[0].right(5);
+            y = xyz[1].right(5);
+            z = xyz[2].right(5);
+            qDebug() << "buffer:" << buffer;
+            //qDebug() << "x = " << x << "y = " << y << "z = " << z;
+        }
         buffer = "";
-        qDebug() << "x = " << x << "y = " << y << "z = " << z;
+
         emit gotNewVals(x,y,z);
     }
     //qDebug() << "ARDUINOREADER: serialRead()3";
