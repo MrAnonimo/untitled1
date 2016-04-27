@@ -18,7 +18,7 @@ public:
     void addDataToGraph(double key,double value);
 
 public slots:
-    void updateWindowData(const QString valX, const QString valY, const QString valZ);
+    void updateWindowData(const QString &valX, const QString &valY, const QString &valZ);
 
 private slots:
 
@@ -26,7 +26,7 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    double timeAtStart,unitLenghtInms;
+    double timeAtStart,unitLenghtInms, rotX, rotY, rotZ, offX, offY, offZ;
     int unitsOnScreen;
 };
 

@@ -61,7 +61,7 @@ int main(int argc, char *argv[])
     else
     {
         //give error message if not avaibale
-        qDebug () << "Port error, couldn't find the arduino";
+        qDebug () << "Port error, couldn't find an arduino";
     }
 
 return a.exec();

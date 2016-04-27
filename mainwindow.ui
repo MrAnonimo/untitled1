@@ -6,22 +6,25 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>437</width>
-    <height>301</height>
+    <width>582</width>
+    <height>476</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <layout class="QVBoxLayout" name="verticalLayout" stretch="5,1,1">
-    <item>
+   <layout class="QGridLayout" name="gridLayout" rowstretch="1,1" columnstretch="1,5">
+    <item row="0" column="1">
      <widget class="QCustomPlot" name="plotWidget" native="true"/>
     </item>
-    <item>
-     <layout class="QHBoxLayout" name="horizontalLayout" stretch="2,2,2">
+    <item row="1" column="1">
+     <widget class="QCustomPlot" name="plotWidget_2" native="true"/>
+    </item>
+    <item row="0" column="0" rowspan="2">
+     <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,2,2,0,2">
       <item>
-       <widget class="QLabel" name="x_label">
+       <widget class="QLabel" name="z_label">
         <property name="text">
          <string/>
         </property>
@@ -35,36 +38,9 @@
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="z_label">
+       <widget class="QLabel" name="x_label">
         <property name="text">
          <string/>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </item>
-    <item>
-     <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="0,0,0">
-      <item>
-       <widget class="QTextEdit" name="textEdit">
-        <property name="cursor" stdset="0">
-         <cursorShape>ArrowCursor</cursorShape>
-        </property>
-        <property name="lineWrapMode">
-         <enum>QTextEdit::NoWrap</enum>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QTextEdit" name="textEdit_2">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="lineWrapMode">
-         <enum>QTextEdit::WidgetWidth</enum>
         </property>
        </widget>
       </item>
@@ -81,6 +57,33 @@
         </property>
        </widget>
       </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="0,0">
+        <item>
+         <widget class="QTextEdit" name="textEdit">
+          <property name="cursor" stdset="0">
+           <cursorShape>ArrowCursor</cursorShape>
+          </property>
+          <property name="lineWrapMode">
+           <enum>QTextEdit::NoWrap</enum>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QTextEdit" name="textEdit_2">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="lineWrapMode">
+           <enum>QTextEdit::WidgetWidth</enum>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
      </layout>
     </item>
    </layout>
@@ -90,8 +93,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>437</width>
-     <height>21</height>
+     <width>582</width>
+     <height>26</height>
     </rect>
    </property>
   </widget>
