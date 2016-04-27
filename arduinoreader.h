@@ -11,14 +11,14 @@ public:
     ~ArduinoReader();
 
 signals:
-    void gotNewVals(float x, float y, float z);    
+    void gotNewVals( const QString &x, const QString &y, const QString &z);
 
 private:
 
     QString arduino_port_name;
     QSerialPort *arduino;
     QString buffer;
-    float x,y,z;
+    QString x,y,z;
 
 private slots:
     void serialRead();

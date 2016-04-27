@@ -12,33 +12,40 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 //======================Graph Setup==================================
 
-    ui->plotWidget->addGraph();//X line
+    //X line
+    ui->plotWidget->addGraph();
     ui->plotWidget->graph(0)->setPen(QPen(Qt::blue));
-    ui->plotWidget->addGraph();//Y line
+    ui->x_label->setStyleSheet("QLabel { color : blue; }");
+    //Y line
+    ui->plotWidget->addGraph();
     ui->plotWidget->graph(1)->setPen(QPen(Qt::green));
-    ui->plotWidget->addGraph();//Z line
+    ui->y_label->setStyleSheet("QLabel { color : green; }");
+    //Z line
+    ui->plotWidget->addGraph();
     ui->plotWidget->graph(2)->setPen(QPen(Qt::red));
+    ui->z_label->setStyleSheet("QLabel { color : red; }");
 
     // make left and bottom axes transfer their ranges to right and top axes:
     connect(ui->plotWidget->xAxis, SIGNAL(rangeChanged(QCPRange)), ui->plotWidget->xAxis2, SLOT(setRange(QCPRange)));
     connect(ui->plotWidget->yAxis, SIGNAL(rangeChanged(QCPRange)), ui->plotWidget->yAxis2, SLOT(setRange(QCPRange)));
-
+    timeAtStart = QDateTime::currentDateTime().toMSecsSinceEpoch()/1000.0;
 }
 
 
-void MainWindow::updateWindowData(float valX, float valY, float valZ)
+void MainWindow::updateWindowData(const QString valX, const QString valY, const QString valZ)
 {
 
-    ui->x_label->setText(valX);
-    ui->y_label->setText(valY);
-    ui->z_label->setText(valZ);
+    //qDebug() << "MAINWINDOW: updateGraph, valX:" << valX;
+    ui->x_label->setText("x = " + valX);
+    ui->y_label->setText("y = " + valY);
+    ui->z_label->setText("z = " + valZ);
 
-    qDebug() << "MAINWINDOW: updateGraph, valX:" << valX;
+
     // add data to lines:
-    double key = QDateTime::currentDateTime().toMSecsSinceEpoch()/1000.0;
-    ui->plotWidget->graph(0)->addData(key, valX);
-    ui->plotWidget->graph(1)->addData(key, valY);
-    ui->plotWidget->graph(2)->addData(key, valZ);
+    double key = QDateTime::currentDateTime().toMSecsSinceEpoch()/1000.0 - timeAtStart;
+    ui->plotWidget->graph(0)->addData(key, valX.toFloat());
+    ui->plotWidget->graph(1)->addData(key, valY.toFloat());
+    ui->plotWidget->graph(2)->addData(key, valZ.toFloat());
 
     // remove data of lines that's outside visible range:
     ui->plotWidget->graph(0)->removeDataBefore(key-8);
@@ -46,8 +53,25 @@ void MainWindow::updateWindowData(float valX, float valY, float valZ)
     ui->plotWidget->graph(2)->removeDataBefore(key-8);
 
     // rescale value (vertical) axis to fit the current data:
-    ui->plotWidget->graph(0)->rescaleValueAxis();
-    ui->plotWidget->graph(1)->rescaleValueAxis(true);
+    if(valX > valY && valX > valZ)
+    {
+        ui->plotWidget->graph(0)->rescaleValueAxis();
+        ui->plotWidget->graph(1)->rescaleValueAxis(true);
+        ui->plotWidget->graph(2)->rescaleValueAxis(true);
+    }
+    else if(valY > valX && valY > valZ)
+    {
+        ui->plotWidget->graph(1)->rescaleValueAxis();
+        ui->plotWidget->graph(0)->rescaleValueAxis(true);
+        ui->plotWidget->graph(2)->rescaleValueAxis(true);
+    }
+    else
+    {
+        ui->plotWidget->graph(2)->rescaleValueAxis();
+        ui->plotWidget->graph(1)->rescaleValueAxis(true);
+        ui->plotWidget->graph(0)->rescaleValueAxis(true);
+    }
+
 
     // make key axis range scroll with the data (at a constant range size of 8):
     ui->plotWidget->xAxis->setRange(key,8,Qt::AlignRight);

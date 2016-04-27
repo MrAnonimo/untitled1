@@ -5,8 +5,8 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     MainWindow w;
-    static const qint16 arduino_uno_vendor_id = 9025;//1659;
-    static const qint16 arduino_uno_product_id = 67;//8963;
+    static const qint16 arduino_uno_vendor_id = 1659;//9025;
+    static const qint16 arduino_uno_product_id = 8963;//67;
 
 
     //======================Cerco Arduino================================
@@ -38,19 +38,20 @@ int main(int argc, char *argv[])
 
     if(arduino_available)
     {
-
+        qDebug() << "Found an arduino";
         ArduinoReader *arduinoReader = new ArduinoReader(arduino_port_name); //istanzio un thread ArduinoReader
         qDebug() << "MAIN: Attempting to connect signal & slots";
 
+        if(QObject::connect(arduinoReader,SIGNAL(gotNewVals(const QString&,const QString&,const QString&)),&w, SLOT(updateWindowData(const QString&,const QString&,const QString&))))
+            qDebug() << "CIAO!";
 
         QThread *qThread1 = new QThread;
         arduinoReader->moveToThread(qThread1);
         QObject::connect(qThread1,SIGNAL(started()),arduinoReader,SLOT(connectToArduino()));
-        QObject::connect(arduinoReader, SIGNAL(finished()), qThread1, SLOT(quit()));
-        QObject::connect(arduinoReader, SIGNAL(finished()), arduinoReader, SLOT(deleteLater()));
+        //QObject::connect(arduinoReader, SIGNAL(finished()), qThread1, SLOT(quit()));
+        //QObject::connect(arduinoReader, SIGNAL(finished()), arduinoReader, SLOT(deleteLater()));
         QObject::connect(qThread1, SIGNAL(finished()), qThread1, SLOT(deleteLater()));
 
-        QObject::connect(arduinoReader,SIGNAL(gotNewVals(float,float,float)),&a, SLOT(updateGraph(float,float,float)));
 
         qThread1->start();
         qDebug() << "MAIN: Done connecting signal & slots, ArduinoReader started on a new thread";
@@ -61,7 +62,7 @@ int main(int argc, char *argv[])
     else
     {
         //give error message if not avaibale
-        qDebug () << "Port error", "couldn't find the arduino";
+        qDebug () << "Port error, couldn't find the arduino";
     }
 
 return a.exec();

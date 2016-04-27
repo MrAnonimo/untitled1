@@ -18,11 +18,11 @@ public:
     void addDataToGraph(double key,double value);
 
 public slots:
-    void updateWindowData(float valX, float valY, float valZ);
+    void updateWindowData(const QString valX, const QString valY, const QString valZ);
 
 private:
     Ui::MainWindow *ui;
-    //QString arduino_port_name;
+    double timeAtStart;
 };
 
 #endif // MAINWINDOW_H

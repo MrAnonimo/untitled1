@@ -38,13 +38,12 @@ void ArduinoReader::serialRead()
     //qDebug() << "ARDUINOREADER: serialRead()";
     if(arduino->bytesAvailable() >= 26)
     {
-        qDebug() << "ARDUINOREADER: serialRead()2";
         buffer = arduino->readAll();
-        x = rand()%100;//buffer.mid(2,4).toFloat();
-        y = rand()%100;//buffer.mid(11,4).toFloat();
-        z = rand()%100;//buffer.mid(20,4).toFloat();
+        x = buffer.mid(2,4);
+        y = buffer.mid(10,4);
+        z = buffer.mid(17,4);
         buffer = "";
-        //qDebug() << "ARDUINOREADER: Abaut to emit gotNewVals(float,float,float)";
+        qDebug() << "x = " << x << "y = " << y << "z = " << z;
         emit gotNewVals(x,y,z);
     }
     //qDebug() << "ARDUINOREADER: serialRead()3";
