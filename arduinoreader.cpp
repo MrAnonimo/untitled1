@@ -41,14 +41,14 @@ void ArduinoReader::serialRead()
     {
         buffer = arduino->readAll();
         QList<QString> xyz = buffer.split(',');
-        qDebug() <<"xyz size:"<< xyz.size();
+        //qDebug() <<"xyz size:"<< xyz.size();
         if(xyz.size() == 3)
         {
             x = xyz[0].right(5);
             y = xyz[1].right(5);
             z = xyz[2].right(5);
             qDebug() << "buffer:" << buffer;
-            //qDebug() << "x = " << x << "y = " << y << "z = " << z;
+            qDebug() << "x = " << x << "y = " << y << "z = " << z;
         }
         buffer = "";
 

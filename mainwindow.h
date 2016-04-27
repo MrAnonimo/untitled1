@@ -21,7 +21,6 @@ public slots:
     void updateWindowData(const QString valX, const QString valY, const QString valZ);
 
 private slots:
-    void on_textEdit_2_textChanged();
 
     void on_pushButton_clicked();
 

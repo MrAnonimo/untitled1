@@ -82,7 +82,7 @@ void MainWindow::updateWindowData(const QString valX, const QString valY, const 
 
 
     // make key axis range scroll with the data (at a constant range size of 8):
-    ui->plotWidget->xAxis->setRange(key,8,Qt::AlignRight);
+    ui->plotWidget->xAxis->setRange(key,unitsOnScreen,Qt::AlignRight);
 
     ui->plotWidget->replot();
 }
